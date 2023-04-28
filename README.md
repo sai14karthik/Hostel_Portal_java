@@ -1,2 +1,2 @@
 
-This Portal allows to take the Queries, Complaints and Outing Pass information and stores in a file  
+This Portal stores Queries, Complaints and Outing Pass information. This project was bulit on java using awt and swing
