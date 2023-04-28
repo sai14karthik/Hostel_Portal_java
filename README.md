@@ -16,6 +16,9 @@ This portal is used for taking any info related to queries, complaints and outin
 # Outing form page 
 <img width="541" alt="Screenshot 2023-04-28 at 10 41 46 PM" src="https://user-images.githubusercontent.com/110590614/235211847-5b675c4c-04a4-4d35-b1dc-42af0f84d985.png">
 
+#Technology used
+Java
+
 # Requirements 
 JDK 11 or above
 
