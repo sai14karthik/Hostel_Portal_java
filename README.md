@@ -4,7 +4,10 @@ This portal is used for taking any info related to queries, complaints and outin
 # Screenshots
 # Login/Signup page
 
-<img width="702" alt="front view " src="https://user-images.githubusercontent.com/110590614/235208529-3593cfe6-58fd-4286-9815-be14254b2190.png">
+<img width="691" alt="Screenshot 2023-04-29 at 5 58 40 PM" src="https://user-images.githubusercontent.com/110590614/235302555-0e1e5e89-a869-4fa0-a4c4-54eaf4476c27.png">
+
+# Forgot Password page
+<img width="306" alt="Screenshot 2023-04-29 at 5 59 25 PM" src="https://user-images.githubusercontent.com/110590614/235302602-fb0c1072-4983-485b-8c8f-022dfdd90d58.png">
 
 
 # Query/Complaint and Outing option page
