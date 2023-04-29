@@ -10,14 +10,13 @@ public class Portal extends JFrame implements ActionListener
     private JLabel usernameLabel, passwordLabel, backgroundLabel, messageLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JButton signupButton, loginButton;
+    private JButton signupButton, loginButton,forgotButton;
     private File file, folder1,folder2,folder3;
     private JButton queryButton = new JButton("Query/Complaint");
-    private JButton outingPassButton = new JButton("Outing Pass");
-    
-
+    private JButton outingPassButton = new JButton("Outing");
     public java.util.Date date = new java.util.Date();    
 
+// constructor code 
     public Portal() 
     {
         setTitle("User Sign Up / Login");
@@ -52,7 +51,12 @@ JTextField dateOfEntryTextField = new JTextField(20);
 JLabel dateOfReturnLabel = new JLabel("Date of Return:");
 JTextField dateOfReturnTextField = new JTextField(20);
 
-        backgroundLabel = new JLabel(new ImageIcon("src/srcimg.jpg"));
+        backgroundLabel = new JLabel(new ImageIcon("src/img-2.jpg"));
+
+    forgotButton = new JButton("Forgot Password");
+    forgotButton.addActionListener(this);
+    forgotButton.setBounds(390, 202, 200, 25);
+    add(forgotButton);
 
         signupButton.addActionListener(this);
         loginButton.addActionListener(this);
@@ -106,8 +110,10 @@ JTextField dateOfReturnTextField = new JTextField(20);
         }
 
         setVisible(true);
-    }
-/////
+    }//constructor code ends
+
+///// signup button code
+
     public void actionPerformed(ActionEvent e) 
     {
         if (e.getSource() == signupButton)
@@ -156,7 +162,7 @@ JTextField dateOfReturnTextField = new JTextField(20);
             }
             
             else
-             {
+            {
                 boolean userExists = false; 
                 try {
                     BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -214,7 +220,57 @@ JTextField dateOfReturnTextField = new JTextField(20);
             }
         
     }
-/////
+    else if (e.getSource() == forgotButton) 
+    {
+        JFrame forgotFrame = new JFrame("Forgot Password");
+    forgotFrame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    forgotFrame.setSize(300, 150);
+    forgotFrame.setLayout(new GridLayout(3, 2));
+    
+    JLabel usernameLabel = new JLabel("Enter Username:");
+    JTextField usernameField = new JTextField();
+    JButton submitButton = new JButton("Submit");
+    JLabel passwordLabel = new JLabel("Password:");
+    JTextField passwordField = new JTextField();
+    passwordField.setEditable(false);
+    
+    submitButton.addActionListener(new ActionListener() 
+    {
+    
+        public void actionPerformed(ActionEvent e) {
+            String username = usernameField.getText();
+            try {
+BufferedReader reader = new BufferedReader(new FileReader("Login Info/login.txt"));
+                String line = reader.readLine();
+                while (line != null) {
+                    String[] loginInfo = line.split(",");
+                    if (loginInfo[0].equals(username)) {
+                        passwordField.setText(loginInfo[1]);
+                        break;
+                    }
+                    line = reader.readLine();
+                }
+                reader.close();
+            } catch (IOException ex) 
+            {
+                ex.printStackTrace();
+            }
+        }
+    });
+    
+    forgotFrame.add(usernameLabel);
+    forgotFrame.add(usernameField);
+    forgotFrame.add(new JLabel()); 
+    forgotFrame.add(submitButton);
+    forgotFrame.add(passwordLabel);
+    forgotFrame.add(passwordField);
+    
+    forgotFrame.setVisible(true);
+        
+    }
+
+ //login button code
+
         else if (e.getSource() == loginButton) 
         {
             String username = usernameField.getText();
@@ -248,7 +304,6 @@ JTextField dateOfReturnTextField = new JTextField(20);
 
                        JFrame newWindow = new JFrame("Choose your option");
     newWindow.setSize(350, 200);
-   
 
     JPanel buttonPanel = new JPanel();
     JButton queryButton = new JButton("Query/Complaint");
@@ -263,7 +318,7 @@ JTextField dateOfReturnTextField = new JTextField(20);
      passwordField.setText("");
 
 
-    queryButton.addActionListener(new ActionListener() 
+queryButton.addActionListener(new ActionListener() 
     {
     public void actionPerformed(ActionEvent e) 
     {
@@ -382,22 +437,22 @@ outingButton.addActionListener(new ActionListener()
 
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               
+
                 String name = nameField.getText();
                 String rollNumber = rollNumberField.getText();
                 String roomNumber = roomNumberField.getText();
                 String towerName = towerNameField.getText();
                 String entryTime = entryTimeField.getText();
                 String dateOfEntry = dateOfEntryField.getText();
-                   String toDate = toDateField.getText();
+                String toDate = toDateField.getText();
                 String dateOfReturn = dateOfReturnField.getText();
 
-             
-        try {
+
+    try {
     String folder3 = "Outing Info";
     File folder = new File(folder3);
     if (!folder.exists())
-     {
+    {
         folder.mkdir();
     }
 
@@ -442,9 +497,9 @@ catch (IOException ex)
 {
 ex.printStackTrace();
 }
-            }
-        }
-    }
+}
+}
+}
     
 public static void main(String args[])
 {
