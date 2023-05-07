@@ -3,15 +3,14 @@ import java.awt.event.*;
 import javax.swing.*;
 import java.io.*;
 
-
-public class Portal extends JFrame implements ActionListener 
+public class Portal extends JFrame implements ActionListener
 {
 
     private JLabel usernameLabel, passwordLabel, backgroundLabel, messageLabel;
     private JTextField usernameField;
     private JPasswordField passwordField;
     private JButton signupButton, loginButton,forgotButton;
-    private File file, folder1,folder2,folder3;
+    private File file, folder1,folder2;
     private JButton queryButton = new JButton("Query/Complaint");
     private JButton outingPassButton = new JButton("Outing");
     public java.util.Date date = new java.util.Date();    
@@ -21,6 +20,8 @@ public class Portal extends JFrame implements ActionListener
     {
         setTitle("User Sign Up / Login");
         setSize(700, 500);
+        setResizable(false);
+        setLayout(null);//
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         usernameLabel = new JLabel("Username:");
@@ -30,28 +31,8 @@ public class Portal extends JFrame implements ActionListener
         signupButton = new JButton("Sign Up");
         loginButton = new JButton("Login");
         messageLabel = new JLabel("");
-JLabel nameLabel = new JLabel("Name:");
-JTextField nameTextField = new JTextField(20);
 
-JLabel rollNumberLabel = new JLabel("Roll Number:");
-JTextField rollNumberTextField = new JTextField(20);
-
-JLabel roomNumberLabel = new JLabel("Room Number:");
-JTextField roomNumberTextField = new JTextField(20);
-
-JLabel towerNameLabel = new JLabel("Tower Name:");
-JTextField towerNameTextField = new JTextField(20);
-
-JLabel entryTimeLabel = new JLabel("Entry Time:");
-JTextField entryTimeTextField = new JTextField(20);
-
-JLabel dateOfEntryLabel = new JLabel("Date of Entry:");
-JTextField dateOfEntryTextField = new JTextField(20);
-
-JLabel dateOfReturnLabel = new JLabel("Date of Return:");
-JTextField dateOfReturnTextField = new JTextField(20);
-
-        backgroundLabel = new JLabel(new ImageIcon("src/img-2.jpg"));
+        backgroundLabel = new JLabel(new ImageIcon("src/img.jpg"));
 
     forgotButton = new JButton("Forgot Password");
     forgotButton.addActionListener(this);
@@ -63,7 +44,9 @@ JTextField dateOfReturnTextField = new JTextField(20);
         usernameLabel.setForeground(Color.WHITE);
         passwordLabel.setForeground(Color.WHITE);
         messageLabel.setForeground(Color.RED);
+        
         backgroundLabel.setBounds(0, 0, 700, 500);
+        repaint();
         usernameLabel.setBounds(50, 100, 80, 25);
         passwordLabel.setBounds(50, 150, 80, 25);
         usernameField.setBounds(140, 100, 200, 25);
@@ -72,8 +55,9 @@ JTextField dateOfReturnTextField = new JTextField(20);
         loginButton.setBounds(260, 200, 80, 25);
         messageLabel.setBounds(140, 250, 300, 25);
         queryButton.setBounds(260, 200, 80, 25);
-    outingPassButton.setBounds(260, 200, 80, 25);
-
+        outingPassButton.setBounds(260, 200, 80, 25);
+        
+        add(backgroundLabel);
         add(usernameLabel);
         add(passwordLabel);
         add(usernameField);
@@ -84,7 +68,7 @@ JTextField dateOfReturnTextField = new JTextField(20);
         add(backgroundLabel);
         add(queryButton);
         add(outingPassButton);
-    
+        
 
         folder1 = new File("Login Info");
         folder1.mkdirs();
@@ -111,6 +95,7 @@ JTextField dateOfReturnTextField = new JTextField(20);
 
         setVisible(true);
     }//constructor code ends
+
 
 ///// signup button code
 
@@ -228,42 +213,44 @@ JTextField dateOfReturnTextField = new JTextField(20);
     forgotFrame.setLayout(new GridLayout(3, 2));
     
     JLabel usernameLabel = new JLabel("Enter Username:");
-    JTextField usernameField = new JTextField();
     JButton submitButton = new JButton("Submit");
-    JLabel passwordLabel = new JLabel("Password:");
-    JTextField passwordField = new JTextField();
-    passwordField.setEditable(false);
     
-    submitButton.addActionListener(new ActionListener() 
-    {
     
-        public void actionPerformed(ActionEvent e) {
-            String username = usernameField.getText();
-            try {
-BufferedReader reader = new BufferedReader(new FileReader("Login Info/login.txt"));
-                String line = reader.readLine();
-                while (line != null) {
-                    String[] loginInfo = line.split(",");
-                    if (loginInfo[0].equals(username)) {
-                        passwordField.setText(loginInfo[1]);
-                        break;
-                    }
-                    line = reader.readLine();
+  
+
+    submitButton.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        String username = usernameField.getText();
+        String newPassword = JOptionPane.showInputDialog(null, "Enter new password:");
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("Login Info/login.txt"));
+            String line = reader.readLine();
+            StringBuilder sb = new StringBuilder();
+            while (line != null) {
+                String[] loginInfo = line.split(",");
+                if (loginInfo[0].equals(username)) {
+                    sb.append(username + "," + newPassword + "\n");
+                } else {
+                    sb.append(line + "\n");
                 }
-                reader.close();
-            } catch (IOException ex) 
-            {
-                ex.printStackTrace();
+                line = reader.readLine();
             }
+            reader.close();
+            BufferedWriter writer = new BufferedWriter(new FileWriter("Login Info/login.txt"));
+            writer.write(sb.toString());
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Password changed successfully");
+        } catch (IOException ex) {
+            ex.printStackTrace();
         }
-    });
-    
+    }
+});
+
     forgotFrame.add(usernameLabel);
     forgotFrame.add(usernameField);
     forgotFrame.add(new JLabel()); 
     forgotFrame.add(submitButton);
-    forgotFrame.add(passwordLabel);
-    forgotFrame.add(passwordField);
+    
     
     forgotFrame.setVisible(true);
         
@@ -303,13 +290,14 @@ BufferedReader reader = new BufferedReader(new FileReader("Login Info/login.txt"
 
 
                        JFrame newWindow = new JFrame("Choose your option");
-    newWindow.setSize(350, 200);
+
 
     JPanel buttonPanel = new JPanel();
     JButton queryButton = new JButton("Query/Complaint");
     JButton outingButton = new JButton("Outing");
-    buttonPanel.add(queryButton);
     buttonPanel.add(outingButton);
+    buttonPanel.add(queryButton);
+    newWindow.setSize(350, 200);
 
     newWindow.add(buttonPanel);
     newWindow.setVisible(true);
@@ -357,7 +345,7 @@ queryButton.addActionListener(new ActionListener()
                                 try 
                                 {
                                     BufferedWriter textWriter = new BufferedWriter(new FileWriter(textFile));
-                                    textWriter.write(textArea.getText()+"  ["+date+"] "+"\n"+"---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+                                    textWriter.write(textArea.getText()+"  ["+date+"] "+"\n");
                                     textWriter.close();
                                 } 
                                 catch (IOException ex)
@@ -370,15 +358,12 @@ queryButton.addActionListener(new ActionListener()
 });
 
 
-outingButton.addActionListener(new ActionListener() 
+outingButton.addActionListener(new ActionListener()
 {
     public void actionPerformed(ActionEvent e) 
     {
          JFrame form = new JFrame("Outing Form");
         form.setSize(500, 400);
-     
-
-
         JPanel labelPanel = new JPanel(new GridLayout(8, 1));
         JPanel fieldPanel = new JPanel(new GridLayout(8, 1));
 
@@ -479,7 +464,6 @@ outingButton.addActionListener(new ActionListener()
         form.add(labelPanel, BorderLayout.WEST);
         form.add(fieldPanel, BorderLayout.CENTER);
         form.add(saveButton, BorderLayout.SOUTH);
-
         form.setVisible(true);
     
         
@@ -503,7 +487,7 @@ ex.printStackTrace();
     
 public static void main(String args[])
 {
-    Portal p= new Portal();
+ new Portal();
     
 }
 }
